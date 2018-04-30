@@ -6,14 +6,18 @@
 struct Vector;
 
 //Append item to end of vector
-//Complexity: Time-0(1) Space-O(N)
+//Complexity:
+//         Time
+//All: O(1) insert to end of array, or resized array
+//        Space
+//All: O(1) store temp node
 void push(Vector * arr, long int item){
     handle_resize(arr, 1);
     arr->items[arr->size++] = item;
 }
 
 //Get size of vector
-//Complexity (all) 0(1)
+//Complexity: (all) 0(1)
 long int size(Vector * arr){
     return arr->size;
 }
@@ -37,23 +41,28 @@ long int at(Vector * arr, long int pos){
 }
 
 //Initialize Array size items
+//Complexity:
+//All: O(1) store temp node
 void init(Vector * arr, long int max){
-    arr->items = calloc(max,sizeof(*arr->items)); 
+    arr->items = calloc(max,sizeof(*arr->items));
     arr->cap = max;
 }
 
 //Insert item at given position and shift rightbound
-//Complexity: Time-0(1) Space-0(...)
+//Complexity: Time-0(N*M), looping over new elemt size / Space-0(N*m), storing N*multipler elements
 void _resize(Vector * arr, double  multiplier){
   arr->items = realloc(arr->items, sizeof(*arr->items)*multiplier);
 }
 
 //Double Vector capacity
-//Complexity: (all) O(1)
+//Complexity:
+//         Time
+//Best: O(1), no resize, worst O(N*M), loop over reajusted length
+//        Space
+//All: O(1) Compare readjusted size
 #define resize _resize
-void handle_resize(Vector * arr, long int adjust){    
+void handle_resize(Vector * arr, long int adjust){
     if((long) arr->size + adjust == arr->cap ){
-        printf("double");
         resize(arr, 2);
     }
     else if(adjust == -1 && arr->size + adjust == floor(arr->cap / 4)){
@@ -63,6 +72,11 @@ void handle_resize(Vector * arr, long int adjust){
 #undef resize
 
 //Print items in vector array
+// Complexity
+//        Time
+//Best: O(1) iterate over 0/1 element/ Worst: O(N) iterate over N elements
+//        Space
+//All O(1)- printing value
 void printVector(Vector * arr){
     long int length = arr->size;
     for(long int x=0; x<length; x++){
@@ -71,7 +85,11 @@ void printVector(Vector * arr){
 }
 
 //Add item to beginning of array
-//Compexity: Time-0(1) Space-0(N)
+// Complexity
+//        Time
+//Best: O(1) iterate over 0/1 element/ Worst: O(N) iterate over N elements
+//        Space
+//Best O(1)- O shift 0/1 elements Worst: O(N-1), shift N-1 Elements
 void prepend(Vector * arr, int item){
     handle_resize(arr, 1);
     for(long int x=arr->size; x>=0; x--){
@@ -82,21 +100,31 @@ void prepend(Vector * arr, int item){
 }
 
 //Remove last item from array
-//Complexity: Time-0(1)
+//Complexity:
+//         Time
+//Best: O(1), one node Worst: / O(N) n-consectuive nodes
+//        Space
+//All: O(1) store temp node
 void pop(Vector * arr){
-    arr->items[arr->size-1] = 0;
-    arr->size--;
+    if(arr->size > 0){
+      handle_resize(arr,-1);
+      arr->items[arr->size-1] = 0;
+      arr->size--;
+    }
 }
 
 //Remove item by index;
-//Complexity: Time-0(1) / Space-0(
+//Complexity:
+//         Time
+//Best: O(1), 1 item or final item / Worst: O(N) shifting memory locations after delete
+//        Space
+//All: Best 0(1) deleteing 2nd to last item reposiging last item, Worst 0(N-1) resassinging all elements
 void delete(Vector * arr, long int index){
     handle_resize(arr, -1);
     long int length = arr->size;
     if(length > 1 && index > 0 && index<=length){
         if(length == 1){
-            printf("whyy!!!");
-            arr->items[1] = 0; 
+            arr->items[1] = 0;
         }
         else if(length >1){
             for(long int x=index; x<=length; x++){
@@ -108,14 +136,27 @@ void delete(Vector * arr, long int index){
         arr->size--;
     }
 }
+
 //Remove item from array
-//Complexity: Time-.....
+//Complexity:
+//         Time
+//Best: O(1), Single element / Worst: O(N) last element
+//        Space
+//Best O(1) if final element or not found, O(N), if first element shift N-1 elements
 void remove_item(Vector * arr, int item){
-   handle_resize(arr, -1);
-   delete(arr, find(arr,item));
+  int index = find(arr,item); //O(N)
+    if(index != -1){
+      handle_resize(arr, -1);
+      delete(arr, find(arr,item)); //O(1)
+    }
 }
+
 //Find item from array
-//Complexity Time-0(1), Space-0(1) ??
+//Complexity:
+//         Time
+//Best: O(1), at first element: / O(N) final element or not found
+//        Space
+//All: O(1) comparing array value to item
 int find(Vector * arr, int item){
     long int length = arr->size;
     for(long int x=0; x<length; x++){
@@ -138,6 +179,5 @@ int main(void){
     pop(&array);
     find(&array, 7);
     printVector(&array);
-    free(array);
     return 0;
 }

@@ -1,3 +1,4 @@
+#include <stdbool.h>
 
 struct Vector;
 
@@ -16,11 +17,10 @@ long int size(Vector * arr);
 void push(Vector * arr, long int item);
 void handle_resize(Vector * arr, long int adjust);
 void printVector(Vector * arr);
-void remove(Vector * arr, int item);
 int find(Vector * arr, int item);
 void prepend(Vector * arr, int item);
 void pop(Vector * arr);
 void delete(Vector * arr, long int index);
 void remove_item(Vector * arr, int item);
 int find(Vector * arr, int item);
-
+void delete(Vector * arr, long int index);
