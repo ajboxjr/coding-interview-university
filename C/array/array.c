@@ -35,9 +35,16 @@ bool is_empty(Vector * arr){
 }
 
 //Return the index of item or -1 if none
-//Complexity: (all) 0(1)
+//Complexity:
+//         Time
+//All: O(1)
+//        Space
+//All: O(1)  return index or -1
 long int at(Vector * arr, long int pos){
+  if (pos <= arr->size) {
     return *(arr->items+pos);
+  }
+  return -1;
 }
 
 //Initialize Array size items
@@ -46,10 +53,15 @@ long int at(Vector * arr, long int pos){
 void init(Vector * arr, long int max){
     arr->items = calloc(max,sizeof(*arr->items));
     arr->cap = max;
+      arr->size = 0;
 }
 
 //Insert item at given position and shift rightbound
-//Complexity: Time-0(N*M), looping over new elemt size / Space-0(N*m), storing N*multipler elements
+//Complexity:
+//        Time
+//All: 0(N*M), looping over new elemt size
+//        Space
+//All: 0(N*M), storing N*multipler elements
 void _resize(Vector * arr, double  multiplier){
   arr->items = realloc(arr->items, sizeof(*arr->items)*multiplier);
 }
@@ -82,6 +94,7 @@ void printVector(Vector * arr){
     for(long int x=0; x<length; x++){
         printf("%i, ",*(arr->items+x));
     }
+    printf("\n");
 }
 
 //Add item to beginning of array
@@ -167,17 +180,17 @@ int find(Vector * arr, int item){
     return -1;
 }
 
-int main(void){
-    Vector array;
-    init(&array,6);
-    push(&array,2);
-    push(&array,3);
-    push(&array,4);
-    push(&array,7);
-    prepend(&array,1);
-    remove_item(&array, 7);
-    pop(&array);
-    find(&array, 7);
-    printVector(&array);
-    return 0;
-}
+// int main(void){
+//     Vector array;
+//     init(&array,6);
+//     push(&array,2);
+//     push(&array,3);
+//     push(&array,4);
+//     push(&array,7);
+//     prepend(&array,1);
+//     remove_item(&array, 7);
+//     pop(&array);
+//     find(&array, 7);
+//     printVector(&array);
+//     return 0;
+// }
