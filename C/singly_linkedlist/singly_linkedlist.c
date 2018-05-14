@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
-#include "linkedlist.h"
+#include "singly_linkedlist.h"
 
 //Defualt Return type for char * fucntion
 static char s = '\0';
@@ -87,12 +87,12 @@ void push_front(LinkedList *linked, char *data){
 //Remove node and return value
 //Complexity:
 //         Time
-//All O(1), map 1 start element
+//All O(1), acess start element
 //        Space
-//All O(1) Storing node, assigning to LinkedList
+//All O(1) remove and store start node of LinkedList
 char * pop_front(LinkedList * linked){
     char * item = malloc(strlen(linked->start->data)+1);
-    if(empty(linked)){
+    if(!empty(linked)){
       strcpy(item, linked->start->data);
       if(linked->length ==1){
         freeNode(linked->start);
@@ -386,40 +386,40 @@ LinkedList * reverse(LinkedList * ll){
 }
 
 
-int main(void){
-  LinkedList *ll = calloc(1,sizeof(*ll));
-  push_back(ll, "1");
-  push_back(ll, "2");
-  push_back(ll, "3");
-  push_back(ll, "4");
-  push_back(ll, "5");
-  push_front(ll, "0");
-
-  printLinkedList(ll);
-
-  free(pop_front(ll));
-  free(pop_back(ll));
-  printLinkedList(ll);
-
-  erase(ll, 2);
-  insert(ll, 1,"-1");
-  printLinkedList(ll);
-
-  printf("\n %s", value_at(ll,3));
-  printLinkedList(ll);
-
-  printf("%s\n",value_n_from_end(ll, 1) );
-
-  remove_value(ll, "money");
-  printLinkedList(ll);
-
-  LinkedList *reversedL  = reverse(ll);
-  printLinkedList(reverse(reversedL));
-
-  deleteLinkedList(reversedL);
-  free(&reversedL);
-  deleteLinkedList(ll);
-  free(ll);
-
-  return 0;
-}
+// int main(void){
+//   LinkedList *ll = calloc(1,sizeof(*ll));
+//   push_back(ll, "1");
+//   push_back(ll, "2");
+//   push_back(ll, "3");
+//   push_back(ll, "4");
+//   push_back(ll, "5");
+//   push_front(ll, "0");
+//
+//   printLinkedList(ll);
+//
+//   free(pop_front(ll));
+//   free(pop_back(ll));
+//   printLinkedList(ll);
+//
+//   erase(ll, 2);
+//   insert(ll, 1,"-1");
+//   printLinkedList(ll);
+//
+//   printf("\n %s", value_at(ll,3));
+//   printLinkedList(ll);
+//
+//   printf("%s\n",value_n_from_end(ll, 1) );
+//
+//   remove_value(ll, "money");
+//   printLinkedList(ll);
+//
+//   LinkedList *reversedL  = reverse(ll);
+//   printLinkedList(reverse(reversedL));
+//
+//   deleteLinkedList(reversedL);
+//   free(&reversedL);
+//   deleteLinkedList(ll);
+//   free(ll);
+//
+//   return 0;
+// }
